@@ -1,0 +1,98 @@
+@model PortfolioApp.Models.Project
+@{
+    bool isEdit = Model.Id > 0;
+    ViewData["Title"] = isEdit ? "Modify Project Record" : "Register New Project";
+}
+
+<div class="container py-5">
+    <div class="glass-panel rounded-4 p-4 p-md-5 border-slate-800" style="max-width: 800px; margin: 0 auto;">
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-slate-800">
+            <div>
+                <span class="text-gold small fw-bold text-uppercase tracking-wider">Entity Framework Core Record</span>
+                <h1 class="h4 font-display text-white mb-0">@(isEdit ? $"Edit: {Model.Title}" : "Ingest New Architecture Project")</h1>
+            </div>
+            <a asp-action="Index" class="btn btn-glass btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Back to Console
+            </a>
+        </div>
+
+        <form asp-action="@(isEdit ? "EditProject" : "CreateProject")" method="post">
+            @Html.AntiForgeryToken()
+            @if (isEdit)
+            {
+                <input type="hidden" asp-for="Id" />
+            }
+
+            <div class="row g-4">
+                <div class="col-12">
+                    <label asp-for="Title" class="form-label text-slate-300 small">Project Title</label>
+                    <input asp-for="Title" class="form-control form-control-dark" required placeholder="e.g. Distributed Payment Gateway" />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Category" class="form-label text-slate-300 small">Category</label>
+                    <select asp-for="Category" class="form-select form-control-dark">
+                        <option value="Enterprise">Enterprise</option>
+                        <option value="Microservices">Microservices</option>
+                        <option value="Cloud & API">Cloud &amp; API</option>
+                        <option value="Full-Stack">Full-Stack</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Metrics" class="form-label text-slate-300 small">Performance Metric / Highlight</label>
+                    <input asp-for="Metrics" class="form-control form-control-dark" placeholder="e.g. 10k req/sec · 99.99% SLA" />
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Description" class="form-label text-slate-300 small">Description & Architectural Scope</label>
+                    <textarea asp-for="Description" class="form-control form-control-dark" rows="4" required placeholder="Outline technical architecture, patterns, CQRS, messaging, database design..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="TechStackRaw" class="form-label text-slate-300 small">Technologies (Comma-separated)</label>
+                    <input asp-for="TechStackRaw" class="form-control form-control-dark" required placeholder=".NET 9, EF Core, SQL Server, Redis, Docker" />
+                    <small class="text-slate-500 text-xs">Separated by commas. Displayed as modern badge tags.</small>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="ImageUrl" class="form-label text-slate-300 small">Project Thumbnail URL</label>
+                    <input asp-for="ImageUrl" class="form-control form-control-dark" required placeholder="https://images.unsplash.com/..." />
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="LiveDemoUrl" class="form-label text-slate-300 small">Live Deployment URL (Optional)</label>
+                    <input asp-for="LiveDemoUrl" class="form-control form-control-dark" placeholder="https://..." />
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="GithubUrl" class="form-label text-slate-300 small">GitHub Repository URL (Optional)</label>
+                    <input asp-for="GithubUrl" class="form-control form-control-dark" placeholder="https://github.com/..." />
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" asp-for="IsFeatured" id="isFeaturedCheck" />
+                        <label class="form-check-label text-slate-300 small" for="isFeaturedCheck">
+                            Feature this project prominently on hero/top grid
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="DisplayOrder" class="form-label text-slate-300 small">Display Sort Order</label>
+                    <input asp-for="DisplayOrder" type="number" class="form-control form-control-dark" value="1" />
+                </div>
+
+                <div class="col-12 mt-4 d-flex justify-content-end gap-2">
+                    <a asp-action="Index" class="btn btn-glass">Cancel</a>
+                    <button type="submit" class="btn btn-gold px-4">
+                        <i class="bi bi-cloud-check me-1"></i> @(isEdit ? "Persist Project Changes" : "Create Project Record")
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

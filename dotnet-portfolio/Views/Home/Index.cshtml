@@ -1,0 +1,221 @@
+@model PortfolioApp.Models.HomeViewModel
+@{
+    ViewData["Title"] = "Principal .NET Architect & Cloud Engineer";
+}
+
+<!-- HERO SECTION -->
+<section id="about" class="hero-section py-5 py-lg-6 position-relative overflow-hidden">
+    <div class="glow-sphere glow-sphere-1"></div>
+    <div class="glow-sphere glow-sphere-2"></div>
+    <div class="container position-relative z-1">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill glass-pill mb-4 border border-gold-subtle">
+                    <span class="status-indicator"></span>
+                    <span class="small text-gold fw-semibold">Available for Principal Architecture &amp; Consulting</span>
+                </div>
+                <h1 class="display-4 fw-bold font-display text-white tracking-tight mb-3">
+                    Hi, I'm <span class="text-gold">@Model.Profile.Name</span>
+                </h1>
+                <h2 class="h4 text-slate-300 fw-medium mb-4">
+                    @Model.Profile.Title
+                </h2>
+                <p class="lead text-slate-400 mb-4" style="max-width: 600px;">
+                    @Model.Profile.Headline
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start mb-5">
+                    <a href="#projects" class="btn btn-gold btn-lg px-4 d-inline-flex align-items-center gap-2">
+                        <span>Explore Projects</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a href="#contact" class="btn btn-glass btn-lg px-4 d-inline-flex align-items-center gap-2">
+                        <span>Initiate Contact</span>
+                        <i class="bi bi-envelope"></i>
+                    </a>
+                </div>
+                <!-- Metrics Counter -->
+                <div class="row g-4 pt-3 border-top border-slate-800">
+                    <div class="col-4">
+                        <div class="h3 fw-bold text-white mb-0 font-display">@Model.Profile.YearsExperience+</div>
+                        <div class="small text-slate-500">Years Experience</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="h3 fw-bold text-gold mb-0 font-display">@Model.Profile.CompletedProjects+</div>
+                        <div class="small text-slate-500">Deployed Systems</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="h3 fw-bold text-white mb-0 font-display">99.99%</div>
+                        <div class="small text-slate-500">SLA Architecture</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Profile Avatar Card -->
+            <div class="col-lg-5 text-center">
+                <div class="profile-card-wrapper position-relative mx-auto">
+                    <div class="avatar-ring position-relative">
+                        <img id="heroAvatarImg" src="@Model.Profile.AvatarUrl" alt="@Model.Profile.Name" class="profile-avatar img-fluid rounded-4 shadow-2xl" />
+                        <div class="avatar-glass-overlay"></div>
+                    </div>
+                    <div class="profile-floating-badge glass-panel px-3 py-2 rounded-3 border-gold-subtle shadow-lg">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-check-circle-fill text-gold"></i>
+                            <div class="text-start">
+                                <div class="fw-bold text-white small">ASP.NET Core &amp; EF Core</div>
+                                <div class="text-slate-400 text-xs">Production Certified</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS SHOWCASE SECTION -->
+<section id="projects" class="py-5 position-relative">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 gap-3">
+            <div>
+                <div class="text-gold fw-bold text-uppercase tracking-wider small mb-2">Portfolio Showcase</div>
+                <h2 class="display-6 fw-bold font-display text-white mb-0">Production Systems &amp; Case Studies</h2>
+            </div>
+            <!-- Category Filter Pills -->
+            <div class="project-filter-pills d-flex flex-wrap gap-2">
+                <button class="btn btn-sm btn-filter active" data-filter="all">All Disciplines</button>
+                @foreach (var cat in Model.AllCategories)
+                {
+                    <button class="btn btn-sm btn-filter" data-filter="@cat.ToLower().Replace(" ", "-")">@cat</button>
+                }
+            </div>
+        </div>
+
+        <!-- Dynamic Projects Grid -->
+        <div class="row g-4" id="projectsContainer">
+            @foreach (var project in Model.Projects)
+            {
+                <div class="col-md-6 col-lg-4 project-item" data-category="@project.Category.ToLower().Replace(" ", "-")">
+                    <div class="card h-100 glass-card-interactive border-slate-800 rounded-4 overflow-hidden position-relative">
+                        @if (project.IsFeatured)
+                        {
+                            <span class="badge badge-featured position-absolute top-0 end-0 m-3 z-2">
+                                <i class="bi bi-star-fill text-gold me-1"></i> Featured
+                            </span>
+                        }
+                        <div class="project-thumbnail-wrapper overflow-hidden position-relative">
+                            <img src="@project.ImageUrl" class="card-img-top project-thumbnail" alt="@project.Title" loading="lazy" />
+                            <div class="thumbnail-overlay d-flex align-items-center justify-content-center gap-3">
+                                @if (!string.IsNullOrEmpty(project.LiveDemoUrl))
+                                {
+                                    <a href="@project.LiveDemoUrl" target="_blank" class="btn btn-gold btn-sm rounded-circle" title="Live Deployment">
+                                        <i class="bi bi-box-arrow-up-right"></i>
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(project.GithubUrl))
+                                {
+                                    <a href="@project.GithubUrl" target="_blank" class="btn btn-glass btn-sm rounded-circle" title="View Source">
+                                        <i class="bi bi-github"></i>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-slate-900 text-gold-muted border border-slate-800">@project.Category</span>
+                                @if (!string.IsNullOrEmpty(project.Metrics))
+                                {
+                                    <span class="small text-slate-400 text-xs">@project.Metrics</span>
+                                }
+                            </div>
+                            <h3 class="h5 fw-bold text-white mb-2 font-display">@project.Title</h3>
+                            <p class="text-slate-400 small flex-grow-1 mb-3 line-clamp-3">
+                                @project.Description
+                            </p>
+                            <!-- Tech Stack Tags -->
+                            <div class="d-flex flex-wrap gap-1 mt-auto pt-2">
+                                @foreach (var tag in project.TechStack)
+                                {
+                                    <span class="tag-tech">@tag</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- INTERACTIVE CONTACT SECTION -->
+<section id="contact" class="py-5 position-relative">
+    <div class="container">
+        <div class="glass-panel rounded-4 p-4 p-lg-5 border-slate-800 position-relative overflow-hidden">
+            <div class="row g-5">
+                <div class="col-lg-5">
+                    <div class="text-gold fw-bold text-uppercase tracking-wider small mb-2">Direct Communication</div>
+                    <h2 class="display-6 fw-bold font-display text-white mb-3">Initiate an Architectural Dialogue</h2>
+                    <p class="text-slate-400 mb-4">
+                        Available for principal consulting, distributed enterprise systems design, or executive engineering roles.
+                    </p>
+                    <div class="d-flex flex-column gap-3 mb-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-box-gold">
+                                <i class="bi bi-envelope-at-fill text-gold"></i>
+                            </div>
+                            <div>
+                                <div class="text-slate-500 text-xs">TARGET RECIPIENT</div>
+                                <div class="text-white fw-medium">@Model.Profile.Email</div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-box-gold">
+                                <i class="bi bi-geo-alt-fill text-gold"></i>
+                            </div>
+                            <div>
+                                <div class="text-slate-500 text-xs">LOCATION / AVAILABILITY</div>
+                                <div class="text-white fw-medium">@Model.Profile.Location</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form with Direct Gmail Compose Generator -->
+                <div class="col-lg-7">
+                    <form id="portfolioContactForm" onsubmit="handleContactSubmit(event)">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="contactName" class="form-label text-slate-300 small">Your Name / Organization</label>
+                                <input type="text" class="form-control form-control-dark" id="contactName" required placeholder="e.g. Satya Nadella" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="contactEmail" class="form-label text-slate-300 small">Your Email</label>
+                                <input type="email" class="form-control form-control-dark" id="contactEmail" required placeholder="satya@microsoft.com" />
+                            </div>
+                            <div class="col-12">
+                                <label for="contactSubject" class="form-label text-slate-300 small">Subject</label>
+                                <input type="text" class="form-control form-control-dark" id="contactSubject" required placeholder=".NET Architecture Consultation / Project Ingestion" />
+                            </div>
+                            <div class="col-12">
+                                <label for="contactMessage" class="form-label text-slate-300 small">Message</label>
+                                <textarea class="form-control form-control-dark" id="contactMessage" rows="4" required placeholder="Describe your architectural challenge, timeline, or consultation scope..."></textarea>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-gold btn-lg w-100 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-send-fill"></i>
+                                    <span>Send Message via Pre-filled Gmail Compose</span>
+                                </button>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <small class="text-slate-500 text-xs">
+                                        Redirects instantly to Gmail web compose with <code>Aarizahadkk@gmail.com</code> pre-filled.
+                                    </small>
+                                    <button type="button" class="btn btn-link text-gold text-decoration-none text-xs p-0" onclick="sendViaMailto()">
+                                        Use Native Desktop Mail Client
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

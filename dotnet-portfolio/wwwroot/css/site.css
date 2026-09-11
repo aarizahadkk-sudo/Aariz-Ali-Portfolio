@@ -1,0 +1,317 @@
+/* ==========================================================================
+   ASP.NET Core Portfolio - Dark Luxury Theme & Glassmorphism Stylesheet
+   Color Palette: Deep Obsidian (#0b0f19), Warm Champagne Gold (#d97706), Frosted Slate
+   ========================================================================== */
+
+:root {
+  --bg-obsidian: #0b0f19;
+  --bg-obsidian-subtle: #0f172a;
+  --bg-obsidian-surface: #111827;
+  --bg-obsidian-card: rgba(15, 23, 42, 0.75);
+  
+  --gold-primary: #d97706;
+  --gold-highlight: #fbbf24;
+  --gold-muted: #b45309;
+  --gold-glow: rgba(217, 119, 6, 0.22);
+  --gold-glow-strong: rgba(217, 119, 6, 0.45);
+  
+  --border-slate: rgba(255, 255, 255, 0.08);
+  --border-gold: rgba(217, 119, 6, 0.35);
+  --border-gold-subtle: rgba(217, 119, 6, 0.2);
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.bg-obsidian {
+  background-color: var(--bg-obsidian) !important;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Glassmorphism Navigation */
+.glass-nav {
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-slate);
+  transition: var(--transition-smooth);
+}
+
+.brand-badge {
+  width: 38px;
+  height: 38px;
+  background: rgba(217, 119, 6, 0.12);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  font-size: 0.85rem;
+}
+
+/* Glass Panels & Cards */
+.glass-panel {
+  background: var(--bg-obsidian-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-slate);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+}
+
+.glass-pill {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+.glass-modal {
+  background: rgba(11, 15, 25, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(217, 119, 6, 0.15);
+}
+
+/* Interactive Project Cards with Smooth Lift */
+.glass-card-interactive {
+  background: var(--bg-obsidian-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-slate);
+  transition: var(--transition-smooth);
+}
+
+.glass-card-interactive:hover {
+  transform: translateY(-6px);
+  border-color: var(--border-gold);
+  box-shadow: 0 20px 35px -10px rgba(217, 119, 6, 0.16), 0 0 1px 1px rgba(217, 119, 6, 0.25);
+}
+
+/* Luxury Gold Button */
+.btn-gold {
+  background-color: var(--gold-primary);
+  color: #ffffff !important;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid var(--gold-highlight);
+  transition: var(--transition-smooth);
+}
+
+.btn-gold:hover {
+  background-color: #f59e0b;
+  box-shadow: 0 0 25px var(--gold-glow-strong);
+  transform: translateY(-1px);
+}
+
+/* Frosted Glass Button */
+.btn-glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-slate);
+  color: var(--text-primary) !important;
+  transition: var(--transition-smooth);
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-gold);
+  color: var(--gold-highlight) !important;
+  transform: translateY(-1px);
+}
+
+/* Subtle Hidden Padlock Button at bottom-left */
+.btn-hidden-padlock {
+  background: transparent;
+  border: none;
+  color: rgba(148, 163, 184, 0.25);
+  font-size: 0.85rem;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-hidden-padlock:hover {
+  color: var(--gold-highlight);
+  background: rgba(217, 119, 6, 0.1);
+  transform: scale(1.15);
+}
+
+/* Hero Glow Spheres (Ambient Luxury Lighting without generic gradient clichés) */
+.glow-sphere {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(120px);
+  opacity: 0.14;
+  z-index: 0;
+}
+
+.glow-sphere-1 {
+  top: -100px;
+  right: -50px;
+  background: radial-gradient(circle, #d97706 0%, rgba(217, 119, 6, 0) 70%);
+}
+
+.glow-sphere-2 {
+  bottom: -50px;
+  left: -100px;
+  background: radial-gradient(circle, #b45309 0%, rgba(180, 83, 9, 0) 70%);
+}
+
+/* Status Indicator Pulse */
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Profile Avatar & Framing */
+.profile-card-wrapper {
+  max-width: 360px;
+}
+
+.avatar-ring {
+  padding: 8px;
+  background: rgba(217, 119, 6, 0.12);
+  border: 1px solid var(--border-gold-subtle);
+  border-radius: 24px;
+}
+
+.profile-avatar {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.profile-floating-badge {
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* Project Thumbnail Hover Overlay */
+.project-thumbnail-wrapper {
+  aspect-ratio: 16/9;
+  background: #0f172a;
+}
+
+.project-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.glass-card-interactive:hover .project-thumbnail {
+  transform: scale(1.04);
+}
+
+.thumbnail-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 15, 25, 0.75);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glass-card-interactive:hover .thumbnail-overlay {
+  opacity: 1;
+}
+
+/* Filter buttons */
+.btn-filter {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-slate);
+  color: var(--text-secondary);
+  border-radius: 20px;
+  padding: 6px 16px;
+  transition: var(--transition-smooth);
+}
+
+.btn-filter:hover, .btn-filter.active {
+  background: rgba(217, 119, 6, 0.15);
+  border-color: var(--border-gold);
+  color: var(--gold-highlight);
+}
+
+/* Tech tags */
+.tag-tech {
+  font-size: 0.75rem;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+}
+
+/* Form Controls Dark */
+.form-control-dark {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid var(--border-slate) !important;
+  color: #f8fafc !important;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.form-control-dark:focus {
+  border-color: var(--gold-primary) !important;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2) !important;
+}
+
+.icon-box-gold {
+  width: 44px;
+  height: 44px;
+  background: rgba(217, 119, 6, 0.12);
+  border: 1px solid var(--border-gold-subtle);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.text-gold {
+  color: var(--gold-highlight) !important;
+}
+
+.text-gold-muted {
+  color: #fbbf24 !important;
+}
+
+.border-gold {
+  border-color: var(--gold-primary) !important;
+}
+
+.border-gold-subtle {
+  border-color: var(--border-gold-subtle) !important;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}

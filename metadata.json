@@ -1,0 +1,6 @@
+{
+  "name": "Portfolio with Admin Dashboard",
+  "description": "A modern dark luxury portfolio featuring dynamic project showcase, contact integration, and hidden admin management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

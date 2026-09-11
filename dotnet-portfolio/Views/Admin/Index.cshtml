@@ -1,0 +1,191 @@
+@model List<PortfolioApp.Models.Project>
+@{
+    ViewData["Title"] = "Executive Admin Console";
+    var profile = (PortfolioApp.Models.Profile)ViewBag.Profile;
+}
+
+<div class="container py-5">
+    <!-- Admin Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom border-slate-800">
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="badge bg-gold-subtle text-gold border border-gold-subtle">
+                    <i class="bi bi-shield-lock-fill me-1"></i> Authenticated Admin
+                </span>
+                <span class="text-slate-500 small">ASP.NET Core EF Core Context Active</span>
+            </div>
+            <h1 class="h3 font-display text-white mb-0">System Content &amp; Entity Manager</h1>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="/" class="btn btn-glass btn-sm">
+                <i class="bi bi-eye me-1"></i> View Live Site
+            </a>
+            <a asp-action="CreateProject" class="btn btn-gold btn-sm">
+                <i class="bi bi-plus-lg me-1"></i> New Project
+            </a>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success bg-emerald-950 text-emerald-300 border-emerald-800 mb-4">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
+        </div>
+    }
+
+    <!-- Tabs for Profile Management vs Project Management -->
+    <ul class="nav nav-pills glass-panel p-2 rounded-3 mb-4 gap-2" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active text-white" id="projects-tab" data-bs-toggle="tab" data-bs-target="#projects-panel" type="button" role="tab">
+                <i class="bi bi-grid-3x3-gap-fill me-2"></i> Portfolio Projects (@Model.Count)
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link text-white" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-panel" type="button" role="tab">
+                <i class="bi bi-person-bounding-box me-2"></i> Profile &amp; Bio Settings
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="adminTabContent">
+        <!-- PROJECTS MANAGEMENT PANEL -->
+        <div class="tab-pane fade show active" id="projects-panel" role="tabpanel">
+            <div class="glass-panel rounded-4 p-4 border-slate-800">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h5 font-display text-white mb-0">Managed Projects Repository</h2>
+                    <a asp-action="CreateProject" class="btn btn-sm btn-gold">
+                        <i class="bi bi-plus-circle me-1"></i> Add Project
+                    </a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle mb-0">
+                        <thead>
+                            <tr class="text-slate-400 small text-uppercase">
+                                <th>Thumbnail</th>
+                                <th>Project Title</th>
+                                <th>Category</th>
+                                <th>Tech Stack</th>
+                                <th>Featured</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var proj in Model)
+                            {
+                                <tr>
+                                    <td style="width: 80px;">
+                                        <img src="@proj.ImageUrl" alt="@proj.Title" class="rounded-2 object-cover" style="width: 64px; height: 44px;" />
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold text-white">@proj.Title</div>
+                                        <small class="text-slate-400 text-xs">@proj.Metrics</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-slate-900 border border-slate-800 text-gold">@proj.Category</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-wrap gap-1" style="max-width: 250px;">
+                                            @foreach (var tech in proj.TechStack.Take(3))
+                                            {
+                                                <span class="tag-tech text-xs">@tech</span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if (proj.IsFeatured)
+                                        {
+                                            <span class="badge bg-warning text-dark"><i class="bi bi-star-fill"></i> Yes</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-slate-600">No</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-action="EditProject" asp-route-id="@proj.Id" class="btn btn-glass" title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <form asp-action="DeleteProject" asp-route-id="@proj.Id" method="post" onsubmit="return confirm('Confirm deletion of @proj.Title?');" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROFILE MANAGEMENT PANEL -->
+        <div class="tab-pane fade" id="profile-panel" role="tabpanel">
+            <div class="glass-panel rounded-4 p-4 border-slate-800">
+                <h2 class="h5 font-display text-white mb-4">Edit Profile Information &amp; Social Links</h2>
+                <form asp-action="UpdateProfile" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Id" value="@profile.Id" />
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label text-slate-300 small">Full Display Name</label>
+                            <input type="text" class="form-control form-control-dark" name="Name" value="@profile.Name" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-slate-300 small">Professional Title</label>
+                            <input type="text" class="form-control form-control-dark" name="Title" value="@profile.Title" required />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label text-slate-300 small">Hero Headline</label>
+                            <input type="text" class="form-control form-control-dark" name="Headline" value="@profile.Headline" required />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label text-slate-300 small">Detailed Bio</label>
+                            <textarea class="form-control form-control-dark" name="Bio" rows="4" required>@profile.Bio</textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-slate-300 small">Contact Email (Target for Inbound Gmail)</label>
+                            <input type="email" class="form-control form-control-dark" name="Email" value="@profile.Email" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-slate-300 small">Profile Photo URL</label>
+                            <input type="url" class="form-control form-control-dark" name="AvatarUrl" value="@profile.AvatarUrl" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-slate-300 small">LinkedIn Profile URL</label>
+                            <input type="url" class="form-control form-control-dark" name="LinkedinUrl" value="@profile.LinkedinUrl" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-slate-300 small">GitHub Profile URL</label>
+                            <input type="url" class="form-control form-control-dark" name="GithubUrl" value="@profile.GithubUrl" required />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-slate-300 small">Years Experience</label>
+                            <input type="number" class="form-control form-control-dark" name="YearsExperience" value="@profile.YearsExperience" min="1" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-slate-300 small">Completed Projects</label>
+                            <input type="number" class="form-control form-control-dark" name="CompletedProjects" value="@profile.CompletedProjects" min="1" />
+                        </div>
+                        <div class="col-md-4 d-flex align-items-center mt-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="OpenForOpportunities" value="true" id="openOpps" @(profile.OpenForOpportunities ? "checked" : "") />
+                                <label class="form-check-label text-slate-300 small" for="openOpps">
+                                    Open for Opportunities Badge
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-4 text-end">
+                            <button type="submit" class="btn btn-gold px-4">
+                                <i class="bi bi-save me-1"></i> Save Profile Modifications
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
